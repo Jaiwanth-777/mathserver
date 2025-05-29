@@ -116,4 +116,4 @@ Publish the website in the given URL.
 ![Screenshot 2024-12-05 211925](https://github.com/user-attachments/assets/c54263a9-67b5-4c78-a788-cb9827162df9)
 
 # RESULT:
-The program for performing server side processing is completed successfully.# Ex.05 Design a Website for Server Side Processing
+The program for performing server side processing is completed successfully.
