@@ -1,4 +1,4 @@
-# Ex.05 Design a Website for Server Side Processing
+# Ex.04 Design a Website for Server Side Processing
 # Date:
 # AIM:
 To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side.
@@ -29,91 +29,121 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 # PROGRAM :
+views.py
 ```
-<!DOCTYPE html>
-<html lang="en">
+from django.shortcuts import render
+def power(request):
+    power=''
+    if request.method == "POST":
+        intensity = float(request.POST.get("intensity"))
+        resistance = float(request.POST.get("resistance"))
+        power=intensity**2*resistance
+        print(f"Intensity: {intensity}, Resistance: {resistance},Power:{power:.2f}")
+    return render(request, 'pow.html', {'power':power})
+```
+urls.py
+```
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',views.power,name='power'),
+]
+```
+pow.html
+```
+{% load static %}
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculate Lamp Filament Power</title>
+    <title>Power Calculation</title>
+
     <style>
-        body {
+        body{
+            text-align:center;
+            background: linear-gradient(blue,white);
             font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
+            padding-top:50px;
         }
 
-        h1 {
-            text-align: center;
+        .container{
+            width:350px;
+            background:#fff0e0;
+            padding:20px;
+            border-radius:10px;
+            margin:auto;
+            border:2px solid #b5302c;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        h1{
+            color:#b5302c;
+            font-size:28px;
         }
 
-        label, input {
-            margin: 10px;
+        label{
+            color:#333;
+            font-size:16px;
         }
 
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        input{
+            width:90%;
+            padding:8px;
+            margin-top:8px;
+            margin-bottom:15px;
+            border:1px solid #b5302c;
+            border-radius:5px;
         }
 
-        button:hover {
-            background-color: #45a049;
+        button{
+            width:100%;
+            padding:10px;
+            background:#c43b34;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
         }
 
-        h2 {
-            text-align: center;
-            margin-top: 20px;
+        button:hover{
+            background:#da4a44;
         }
     </style>
+
 </head>
+
 <body>
-    <h1>Calculate Lamp Filament Power</h1>
-    <form id="powerForm">
-        <label for="intensity">Intensity (I in Amperes):</label>
-        <input type="number" id="intensity" name="intensity" step="0.01" required>
-        <br>
-        <label for="resistance">Resistance (R in Ohms):</label>
-        <input type="number" id="resistance" name="resistance" step="0.01" required>
-        <br>
-        <button type="button" onclick="calculatePower()">Calculate Power</button>
-    </form>
-    <h2 id="result"></h2>
-    <script>
-        function calculatePower() {
-            const intensity = parseFloat(document.getElementById('intensity').value);
-            const resistance = parseFloat(document.getElementById('resistance').value);
 
-            if (isNaN(intensity) || isNaN(resistance)) {
-                alert('Please enter valid numbers for both intensity and resistance.');
-                return;
-            }
+<div class="container">
+<h1>Power Calculator</h1>
 
-            const power = Math.pow(intensity, 2) * resistance;
-            document.getElementById('result').innerText = `Power (P) = ${power.toFixed(2)} watts`;
-        }
-    </script>
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Intensity:</label><br>
+    <input type="number" name="intensity" required placeholder="Enter in cd"><br>
+
+    <label>Resistance:</label><br>
+    <input type="number" name="resistance" required placeholder="Enter in Ohms"><br>
+
+    <button type="submit">Calculate</button><br><br>
+
+    <label>Power:</label><br>
+    <input type="text" value="{{ power }}" readonly> Watts
+
+</form>
+</div>
+
 </body>
 </html>
 ```
 # SERVER SIDE PROCESSING:
-![Screenshot 2024-12-05 211907](https://github.com/user-attachments/assets/63c6a226-ff91-422e-aee9-bf91d4915a66)
+![alt text](<Screenshot 2025-12-10 093150.png>)
 
-# HOMEPAGE:
-![Screenshot 2024-12-05 211925](https://github.com/user-attachments/assets/c54263a9-67b5-4c78-a788-cb9827162df9)
+# OUTPUT:
+![alt text](<Screenshot 2025-12-10 094053.png>)
 
 # RESULT:
 The program for performing server side processing is completed successfully.
